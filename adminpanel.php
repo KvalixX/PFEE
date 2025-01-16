@@ -17,11 +17,24 @@ if (isset($_POST['add_product'])) {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $price = $_POST['price'];
-    $image = $_POST['image'];  // Handle file upload for images properly
 
-    $sql = "INSERT INTO products (name, description, price, image) VALUES ('$name', '$description', '$price', '$image')";
+    // File upload handling
+    $image_path = ''; // Initialize the variable to store the image path
+
+    if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
+        $temp_name = $_FILES['image']['tmp_name'];
+        $image_name = $_FILES['image']['name'];
+        $image_path = 'uploads/' . $image_name; // Example upload directory
+
+        // Move uploaded file to permanent location
+        move_uploaded_file($temp_name, $image_path);
+    }
+
+    // Insert into database
+    $sql = "INSERT INTO products (name, description, price, image) VALUES ('$name', '$description', '$price', '$image_path')";
     $conn->query($sql);
 }
+
 
 // Delete product
 if (isset($_GET['delete_id'])) {
@@ -46,7 +59,7 @@ $result = $conn->query($sql);
 <body>
     <h1>Admin Panel - Manage Products</h1>
 
-    <form action="adminpanel.php" method="POST">
+    <form action="adminpanel.php" method="POST" enctype="multipart/form-data">
         <h2>Add Product</h2>
         <label for="name">Product Name:</label>
         <input type="text" name="name" id="name" required><br><br>
@@ -58,7 +71,7 @@ $result = $conn->query($sql);
         <input type="number" name="price" id="price" required><br><br>
 
         <label for="image">Image URL:</label>
-        <input type="text" name="image" id="image" required><br><br>
+        <input type="file" name="image" id="image" required><br><br>
 
         <button type="submit" name="add_product">Add Product</button>
     </form>
