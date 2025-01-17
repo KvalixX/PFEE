@@ -1,0 +1,352 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+.admin-container {
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #444;
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #444;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    font-size: 1.3em;
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    background-color: #fff;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.main-content h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form Styling */
+.main-content form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.main-content form h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #8b382a;
+    text-align: center;
+}
+
+.main-content form label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.main-content form input,
+.main-content form textarea,
+.main-content form button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.main-content form input:focus,
+.main-content form textarea:focus,
+.main-content form button:focus {
+    outline: none;
+    border-color: #8b382a;
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+}
+/* Product Section */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Product Card */
+.pro {
+    width: 20%;
+    min-width: 220px;
+    height: 400px;
+    padding: 15px;
+    border: 1px solid #8b382a;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pro:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image */
+.pro img {
+    width: 80%; /* Reduced width to make images smaller */
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Product Description */
+.pro .des {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.pro .des span {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.pro .des h5 {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.pro .des h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #8b382a;
+    margin-top: 5px;
+}
+
+/* Buttons (Delete & Edit) */
+#delete-btn,
+#edit-btn {
+    position: absolute;
+    bottom: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease-in-out;
+    text-decoration: none;
+}
+
+#delete-btn {
+    background-color: #e74c3c;
+    left: 10px;
+}
+
+#delete-btn:hover {
+    background-color: #c0392b;
+}
+
+#edit-btn {
+    background-color: #f39c12;
+    right: 10px;
+}
+
+#edit-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .pro {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .pro {
+        width: 90%;
+    }
+}
+
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    flex: 1;
+}
+
+.main-content h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.users {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.user {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.user:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.user span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user h5 {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.user a {
+    display: inline-block;
+    padding: 10px;
+    font-size: 14px;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.user a:hover {
+    background-color: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+}
+
+.user a:last-child {
+    background-color: #3498db;
+    border-color: #3498db;
+    color: white;
+}
+
+.user a:last-child:hover {
+    background-color: #2980b9;
+}
+
+/* Add some space between form elements */
+form label {
+    font-weight: bold;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #2ecc71;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
