@@ -34,6 +34,10 @@ $result = $conn->query($sql);
     <title>Kvalix</title>
 </head>
 <body>
+<?php
+session_start();
+?>
+
 <nav>
     <div class="logo">
         <h1>M<span>S</span></h1>
@@ -44,13 +48,22 @@ $result = $conn->query($sql);
         <li><a href="Programs.php">Programs</a></li>
         <li><a href="Plan.php">Plan</a></li>
         <li><a href="Contact.php">Contact</a></li>
-        <li><a href="Sign-up.php"><i class="fas fa-user-plus"></i> Sign up</a></li>
-        <li><a href="Log-in.php"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+        
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <!-- Show Profile links if user is logged in -->
+            <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <?php else: ?>
+            <!-- Show login/signup links if the user is not logged in -->
+            <li><a href="Sign-up.php"><i class="fas fa-user-plus"></i> Sign up</a></li>
+            <li><a href="Log-in.php"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+        <?php endif; ?>
     </ul>
     <div class="menu-icon">
         <i class="fa-solid fa-bars" onclick="toggleMenu()"></i>
     </div>
 </nav>
+
 
 <section class="header">
     <h2>Our <span>Shop</span></h2>

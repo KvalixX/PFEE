@@ -17,23 +17,37 @@
 
 </head>
 <body>
+<?php
+session_start();
+?>
+
 <nav>
-        <div class="logo">
-            <h1>M<span>S</span></h1>
-        </div>
-        <ul id="menuList">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="Shop.php">Shop</a></li>
-            <li><a href="Programs.php">Programs</a></li>
-            <li><a href="#Plan">Plan</a></li>
-            <li><a href="Contact.php">Contact</a></li>
+    <div class="logo">
+        <h1>M<span>S</span></h1>
+    </div>
+    <ul id="menuList">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="Shop.php">Shop</a></li>
+        <li><a href="Programs.php">Programs</a></li>
+        <li><a href="Plan.php">Plan</a></li>
+        <li><a href="Contact.php">Contact</a></li>
+        
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <!-- Show Profile links if user is logged in -->
+            <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <?php else: ?>
+            <!-- Show login/signup links if the user is not logged in -->
             <li><a href="Sign-up.php"><i class="fas fa-user-plus"></i> Sign up</a></li>
             <li><a href="Log-in.php"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
-        </ul>
-        <div class="menu-icon">
-            <i class="fa-solid fa-bars" onclick="toggleMenu()"></i>
-        </div>
+        <?php endif; ?>
+    </ul>
+    <div class="menu-icon">
+        <i class="fa-solid fa-bars" onclick="toggleMenu()"></i>
+    </div>
 </nav>
+
+
 <section class="home">
     <video class="video-slide active" src="videos/1.mp4" autoplay muted loop></video>
     <video class="video-slide" src="videos/11.mp4" autoplay muted loop></video>
@@ -95,78 +109,58 @@
         </div>
     </div>
 <br><br>
+<?php
+// Connexion à la base de données (remplacez les valeurs selon votre configuration)
+$host = 'localhost'; // hôte de la base de données
+$dbname = 'PFE'; // nom de la base de données
+$username = 'root'; // nom d'utilisateur de la base de données
+$password = ''; // mot de passe de la base de données
 
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    // Définir le mode d'erreur de PDO pour afficher les exceptions
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo 'Échec de la connexion à la base de données : ' . $e->getMessage();
+}
 
-    <section id="product1" class="section-p1">
+// Requête SQL pour obtenir les 3 premiers produits
+$query = "SELECT id, name, brand, image, price, rating FROM products LIMIT 3";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+
+// Récupérer les résultats dans un tableau associatif
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<section id="product1" class="section-p1">
     <h2>Top Sellers</h2>
     <p>Explore our most popular sports accessories, chosen by customers for their quality and performance!</p>
     <div class="pro-container">
-        <div class="pro" onclick="window.location.href='product.php';">
-            <img src="images/Adidas T-shirt 3bandes.jpg" alt="Adidas T-shirt 3 Bandes">
-            <div class="des">
-                <span>adidas</span>
-                <h5>T-shirt</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
+        <?php if (!empty($products)): ?>
+            <?php foreach ($products as $product): ?>
+                <div class="pro" onclick="window.location.href='product.php?id=<?= htmlspecialchars($product['id']); ?>';">
+                    <img src="<?= htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
+                    <div class="des">
+                        <span><?= htmlspecialchars($product['brand']); ?></span>
+                        <h5><?= htmlspecialchars($product['name']); ?></h5>
+                        <div class="star">
+                            <?php for ($i = 0; $i < $product['rating']; $i++): ?>
+                                <i class="fas fa-star"></i>
+                            <?php endfor; ?>
+                        </div>
+                        <h4>$<?= number_format($product['price'], 2); ?></h4>
+                    </div>
+                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
                 </div>
-                <h4>$50</h4>
-            </div>
-            <a href="#"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-        <div class="pro" onclick="window.location.href='product.php';">
-            <img src="images/short nike.png" alt="Adidas T-shirt 3 Bandes">
-            <div class="des">
-                <span>Nike</span>
-                <h5>Short</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$80</h4>
-            </div>
-            <a href="#"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-        <div class="pro" onclick="window.location.href='product.php';">
-            <img src="images/wrist wraps.webp" alt="Adidas T-shirt 3 Bandes">
-            <div class="des">
-                <span>Thunder Fitness</span>
-                <h5>wrist wraps</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$35</h4> 
-            </div>
-            <a href="#"><i class="fa fa-shopping-cart"></i></a>
-        </div>
-        <div class="pro" onclick="window.location.href='product.php';">
-            <img src="images/bandes de résistance.webp" alt="Adidas T-shirt 3 Bandes">
-            <div class="des">
-                <span>Fitness boutique</span>
-                <h5>bande résistance</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$50</h4>
-            </div>
-            <a href="#"><i class="fa fa-shopping-cart"></i></a>
-        </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No top sellers available at the moment.</p>
+        <?php endif; ?>
     </div>
 </section>
+
+
 <section class="program-content">
     <h1>Programs</h1>
     <div>

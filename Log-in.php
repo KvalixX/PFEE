@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['full_name'];
             $_SESSION['user_email'] = $row['email'];
-            header("Location: dashboard.php"); // Redirect to the user dashboard
+            header("Location: profile.php"); // Redirect to the user dashboard
             exit();
         } else {
             $error_message = "Invalid credentials!";
