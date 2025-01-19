@@ -35,7 +35,9 @@ $result = $conn->query($sql);
 </head>
 <body>
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <nav>
@@ -50,14 +52,14 @@ session_start();
         <li><a href="Contact.php">Contact</a></li>
         
         <?php if (isset($_SESSION['user_id'])): ?>
-            <!-- Show Profile links if user is logged in -->
             <li><a href="profile.php"><i class="fas fa-user"></i> Profile</a></li>
             <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         <?php else: ?>
-            <!-- Show login/signup links if the user is not logged in -->
             <li><a href="Sign-up.php"><i class="fas fa-user-plus"></i> Sign up</a></li>
             <li><a href="Log-in.php"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
         <?php endif; ?>
+        <!-- Lien vers le panier -->
+        <li><a href="cart.php"><i class="fas fa-shopping-cart"></i> Cart</a></li>
     </ul>
     <div class="menu-icon">
         <i class="fa-solid fa-bars" onclick="toggleMenu()"></i>
@@ -74,32 +76,32 @@ session_start();
         <p>Explore our collection of amazing products</p>
 
         <div class="pro-container">
-            <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo '
-                    <div class="pro" onclick="window.location.href=\'product.php?id=' . $row['id'] . '\';">
-                        <img src="' . $row['image'] . '" alt="' . $row['name'] . '">
-                        <div class="des">
-                            <span>Fitness boutique</span>
-                            <h5>' . $row['name'] . '</h5>
-                            <div class="star">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4>$' . $row['price'] . '</h4>
-                        </div>
-                        <a href="#"><i class="fa fa-shopping-cart"></i></a>
-                    </div>';
-                }
-            } else {
-                echo "<p>No products found!</p>";
-            }
-            ?>
-        </div>
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '
+            <div class="pro">
+                <img src="' . $row['image'] . '" alt="' . $row['name'] . '">
+                <div class="des">
+                    <span>Fitness boutique</span>
+                    <h5>' . $row['name'] . '</h5>
+                    <h4>$' . $row['price'] . '</h4>
+                </div>
+                <form action="cart_action.php" method="POST">
+                    <input type="hidden" name="product_id" value="' . $row['id'] . '">
+                    <input type="hidden" name="product_name" value="' . $row['name'] . '">
+                    <input type="hidden" name="product_price" value="' . $row['price'] . '">
+                    <button type="submit" name="add_to_cart" class="add-to-cart-btn">
+                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </form>
+            </div>';
+        }
+    } else {
+        echo "<p>No products found!</p>";
+    }
+    ?>
+</div>
     </div>
 
 
@@ -149,7 +151,30 @@ session_start();
         </div>
     </div>
 </footer>
+<style>
+    /* Style for Add to Cart button */
+.add-to-cart-btn {
+    text-decoration: none;  /* No underline on the text */
+    border: 1px solid #ccc;  /* Light border around the button */
+    border-radius: 1em;  /* Rounded corners */
+    padding: 1em 2em;  /* Padding around the button */
+    font-weight: bold;  /* Bold font weight */
+    text-transform: uppercase;  /* Uppercase text */
+    display: inline-block;  /* Make the button an inline block */
+    background-color: white;  /* White background color */
+    color: #333;  /* Dark text color */
+    transition: all 0.3s ease;  /* Smooth transition for all properties */
+    margin-bottom: 0;  /* No bottom margin */
+}
 
+/* Hover effect for Add to Cart button */
+.add-to-cart-btn:hover {
+    background-color: #8b382a;  /* Dark red background on hover */
+    color: white;  /* White text color on hover */
+    border-color: #8b382a;  /* Change border color to match the background */
+}
+
+</style>
 <script src="mainn.js"></script>
 </body>
 </html>

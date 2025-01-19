@@ -125,7 +125,7 @@ try {
 }
 
 // Requête SQL pour obtenir les 3 premiers produits
-$query = "SELECT id, name, brand, image, price, rating FROM products LIMIT 3";
+$query = "SELECT id, name, brand, image, price FROM products LIMIT 3";
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 
@@ -144,11 +144,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="des">
                         <span><?= htmlspecialchars($product['brand']); ?></span>
                         <h5><?= htmlspecialchars($product['name']); ?></h5>
-                        <div class="star">
-                            <?php for ($i = 0; $i < $product['rating']; $i++): ?>
-                                <i class="fas fa-star"></i>
-                            <?php endfor; ?>
-                        </div>
                         <h4>$<?= number_format($product['price'], 2); ?></h4>
                     </div>
                     <a href="#"><i class="fa fa-shopping-cart"></i></a>
